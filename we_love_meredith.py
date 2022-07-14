@@ -7,7 +7,7 @@ import os
 
 def pick():
     with open('lyrics.txt', 'r', encoding="utf-8") as f:
-        print(random.choice(f.readlines())[:-1])
+        print(r"{}".format((random.choice(f.readlines())[:-1])))
 
 def pull_songs():
     print('lyrics.txt not found, pulling lyrics...')
@@ -29,10 +29,11 @@ def pull_songs():
             continue
         song_lyrics = os.linesep.join([s for s in re.sub(r'[\(\[].*?[\)\]]', '', text.get_text(separator='\n')).splitlines() if s])
         raw_lyrics.extend(song_lyrics.split('\n'))
+        raw_lyrics[-1] +='\n'
 
     lyrics = []
     for lyric in raw_lyrics:
-        if lyric not in lyrics: lyrics.append(lyric.replace('\n', ''))
+        if lyric not in lyrics: lyrics.append(lyric)
     write = ''
     with open('lyrics.txt', 'w', encoding="utf-8") as f:
         for line in lyrics:
